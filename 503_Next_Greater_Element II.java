@@ -73,3 +73,41 @@ so their answer stays -1.
 This works because each index is pushed and popped at most once.
 Time Complexity: O(n)
 Space Complexity: O(n)*/
+
+
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+
+        Stack<Integer> st = new Stack<>();
+
+        // Traverse the array twice to simulate circular behavior
+        for (int i = 0; i < 2 * n; i++) {
+            int idx = i % n;
+
+            while (!st.isEmpty() && nums[idx] > nums[st.peek()]) {
+                int prevIdx = st.pop();
+                ans[prevIdx] = nums[idx];
+            }
+
+            // Only push indices from first pass
+            if (i < n) {
+                st.push(idx);
+            }
+        }
+
+        return ans;
+    }
+}
+
+🔹 Topic Classification
+
+Monotonic Stack (core concept)
+Stack
+Circular Array
+This is a must-know pattern for many problems like:
+Next Greater Element I / II
+Daily Temperatures
+Stock Span
