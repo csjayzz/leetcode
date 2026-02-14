@@ -90,3 +90,27 @@ class Solution {
           return Math.min(1.0,solve(poured,query_row,query_glass));                                                                                                                           
     }
 }
+
+class Solution {
+    public double champagneTower(int poured, int query_row, int query_glass) {
+        // Create a 2D array with enough space (extra buffer to avoid index issues)
+        double[][] tower = new double[102][102];
+        
+        // Initial poured champagne goes into the top glass
+        tower[0][0] = poured;
+        
+        // Fill the tower row by row
+        for (int r = 0; r <= query_row; r++) {
+            for (int c = 0; c <= r; c++) {
+                if (tower[r][c] > 1.0) {
+                    double excess = (tower[r][c] - 1.0) / 2.0;
+                    tower[r + 1][c] += excess;
+                    tower[r + 1][c + 1] += excess;
+                }
+            }
+        }
+        
+        // The glass can hold at most 1 unit
+        return Math.min(1.0, tower[query_row][query_glass]);
+    }
+}
