@@ -51,6 +51,7 @@ class Solution {
     }
 }
 
+
 /*
 =========================================
 678. Valid Parenthesis String - Notes
@@ -125,3 +126,92 @@ Key takeaway:
 - Recursive state (idx, cnt) + memo converts exponential brute force to polynomial.
 */
 
+class Solution {
+    public boolean checkValidString(String s) {
+       int min = 0;
+       int max = 0;
+
+       for(int i = 0;i<s.length();i++){
+        if(s.charAt(i)=='('){
+            min++;
+            max++;
+        }
+        else if(s.charAt(i)==')'){
+            min--;
+            max--;
+        }
+        else{
+            min--;
+            max++;
+        }
+
+        if(min<0)min = 0;
+        if(max<0)return false;
+       } 
+
+       return min==0;
+    }
+}
+
+/*
+=========================================
+Greedy Range Approach (Optimal) - Notes
+=========================================
+
+Core idea:
+- We do not fix '*' immediately.
+- Instead, at each index we track a range:
+  - min = minimum possible open brackets
+  - max = maximum possible open brackets
+- After reading each char, any real open count must lie inside [min, max].
+
+Updates:
+1) '(':
+   - min++
+   - max++
+2) ')':
+   - min--
+   - max--
+3) '*':
+   - if '*' acts as ')' -> min--
+   - if '*' acts as '(' -> max++
+   - (empty is naturally covered in between range)
+
+Important checks:
+- if (max < 0) return false
+  Reason: even in best case we have more ')' than '(', impossible to recover.
+- if (min < 0) min = 0
+  Reason: minimum open count cannot be negative in practice.
+
+Final condition:
+- return min == 0
+- Means there exists at least one valid interpretation ending with all opens closed.
+
+Why this is optimal:
+- Brute force tries 3 choices for every '*': O(3^n)
+- Memoized recursion reduces to O(n^2)
+- Greedy keeps only boundary info (min/max), so one pass is enough.
+
+Complexity:
+- Time: O(n)
+- Space: O(1)
+
+Dry Run 1 (Valid): s = "(*))"
+
+Start: min=0, max=0
+- '(' -> min=1, max=1
+- '*' -> min=0, max=2   (min--, max++)
+- ')' -> min=-1, max=1  -> min=0 after clamp
+- ')' -> min=-1, max=0  -> min=0 after clamp
+End: min==0 => true
+
+Dry Run 2 (Invalid): s = ")*("
+
+Start: min=0, max=0
+- ')' -> min=-1, max=-1
+  max<0 => false immediately
+
+Key takeaway:
+- `max` protects from impossible extra ')'
+- `min` checks whether we can finish with fully balanced count.
+*/
