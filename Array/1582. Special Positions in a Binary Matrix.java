@@ -1,4 +1,16 @@
 class Solution {
+    /*
+     * Problem in simple words:
+     * A position (r, c) is "special" if:
+     * 1) mat[r][c] == 1
+     * 2) In row r, this is the only 1
+     * 3) In column c, this is the only 1
+     *
+     * Idea:
+     * - First pass: count how many 1s are present in each row and each column.
+     * - Second pass: for every cell with value 1, check if row count == 1 and column count == 1.
+     *   If yes, it is a special position.
+     */
     public int numSpecial(int[][] mat) {
         int m = mat.length;
         int n = mat[0].length;
@@ -32,7 +44,11 @@ class Solution {
 }
 
 // Notes:
-// 1) Build row and column frequency arrays for count of 1s.
-// 2) Re-scan matrix and count cells where mat[r][c] == 1, rows[r] == 1, cols[c] == 1.
+// 1) Build row and column count arrays for number of 1s.
+// 2) Re-scan matrix:
+//    a) current cell must be 1
+//    b) its row must have exactly one 1
+//    c) its column must have exactly one 1
+//    If all true, increment answer.
 // Time Complexity: O(m * n)
 // Space Complexity: O(m + n)
