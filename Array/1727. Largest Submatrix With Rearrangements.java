@@ -70,3 +70,79 @@ class Solution {
         return maxArea;
     }
 }
+
+
+/*
+//Approach 1: modifying input array(with cumulative continous 1s)
+class Solution {
+    public int largestSubmatrix(int[][] matrix) {
+        //tc: o(m*nlogn)
+        //sc: o(m*n);
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int maxArea = 0;
+
+        for(int row = 0;row < m; row++ ){
+             for(int col = 0;col < n; col++ ){
+                if(matrix[row][col]==1 && row>0){
+                    matrix[row][col] += matrix[row-1][col]; //cumulative 1s continous
+                }
+            }
+
+            Integer [] heights = new Integer[n];
+            for(int i = 0;i < n; i++){
+                heights[i] = matrix[row][i];
+            }
+            Arrays.sort(heights, Collections.reverseOrder());
+            
+            for(int i = 0; i < n; i++){
+                int base = (i+1);
+                int height = heights[i];
+
+                maxArea = Math.max(maxArea,(base*height));
+            }
+        }
+
+        return maxArea;
+    }
+}
+*/
+
+class Solution {
+    public int largestSubmatrix(int[][] matrix) {
+     //tc: o(m*nlogn)
+        //sc: o(2n);
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int maxArea = 0;
+        int [] prevRow = new int[n]; 
+
+        for(int row = 0;row < m; row++ ){
+            
+            int [] currRow = matrix[row];
+             
+             for(int col = 0;col < n; col++ ){
+                if(matrix[row][col]==1){
+                    currRow[col] += prevRow[col]; //cumulative 1s continous
+                }
+            }
+
+            Integer [] heights = new Integer[n];
+            for(int i = 0;i < n; i++){
+                heights[i] = currRow[i];
+            }
+            Arrays.sort(heights, Collections.reverseOrder());//nlogn
+            
+            for(int i = 0; i < n; i++){
+                int base = (i+1);
+                int height = heights[i];
+
+                maxArea = Math.max(maxArea,(base*height));
+            }
+
+            prevRow = currRow;
+        }
+
+        return maxArea;   
+    }
+}
