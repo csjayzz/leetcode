@@ -23,3 +23,25 @@ Constraints:
 1 <= nums1[i], nums2[j] <= 109
 Both nums1 and nums2 are sorted in non-decreasing order.
 */
+
+class Solution {
+    public int getCommon(int[] nums1, int[] nums2) {
+        for (int i = 0; i < nums1.length; i++) {
+            int l = 0;
+            int r = nums2.length - 1;
+
+            while (l <= r) {
+                int mid = l + (r - l) / 2;
+
+                if (nums2[mid] == nums1[i]) {
+                    return nums1[i];  // found common element
+                } else if (nums2[mid] < nums1[i]) {
+                    l = mid + 1;  // search right half
+                } else {
+                    r = mid - 1;  // search left half
+                }
+            }
+        }
+        return -1;  // no common element
+    }
+}
