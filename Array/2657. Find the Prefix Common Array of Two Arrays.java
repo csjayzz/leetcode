@@ -75,3 +75,72 @@ class Solution {
     }
 }
 
+/*
+ * Problem: Find the Prefix Common Array of Two Arrays (LeetCode 2657)
+ * -------------------------------------------------------------------
+ * You are given two integer permutations A and B of length n.
+ * A prefix common array C is defined such that:
+ *   - C[i] = count of numbers that appear in BOTH A and B
+ *     at or before index i.
+ *
+ * Example:
+ *   A = [1,3,2,4], B = [3,1,2,4]
+ *   Output = [0,2,3,4]
+ *
+ * -------------------------------------------------------------------
+
+ * -------------------------------------------------------------------
+ * Optimized Approach (Frequency Array):
+ * - Maintain freq[x] = how many times number x has appeared so far
+ *   across BOTH arrays.
+ * - At each index i:
+ *     * Increment freq[A[i]].
+ *     * If freq[A[i]] == 2 → this number has now appeared in both arrays → increment common.
+ *     * Increment freq[B[i]].
+ *     * If freq[B[i]] == 2 → increment common.
+ *     * Set ans[i] = common.
+ *
+ * Why this works:
+ * - Each number appears exactly once in A and once in B (permutation property).
+ * - Therefore, the moment freq[x] becomes 2, we know x has appeared in both arrays.
+ * - We only need to check the two new numbers at each step, not all 1..n.
+ *
+ * -------------------------------------------------------------------
+ * Time Complexity:
+ * - O(n) → single pass through arrays.
+ * - Each step does O(1) work.
+ *
+ * Space Complexity:
+ * - O(n) for frequency array and result array.
+ *
+ * -------------------------------------------------------------------
+ * Pattern Summary:
+ * - Use frequency counting to track "seen in both arrays".
+ * - Avoid scanning all values at each step.
+ * - Leverage permutation property (each number appears exactly once).
+ */
+
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        int n = A.length;
+        int[] ans = new int[n];
+        int[] freq = new int[n + 1]; // values range from 1..n
+        int common = 0;
+
+        for (int i = 0; i < n; i++) {
+            freq[A[i]]++;
+            if (freq[A[i]] == 2) {
+                common++;
+            }
+
+            freq[B[i]]++;
+            if (freq[B[i]] == 2) {
+                common++;
+            }
+
+            ans[i] = common;
+        }
+
+        return ans;
+    }
+}
