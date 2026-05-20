@@ -47,3 +47,22 @@
  * - Use frequency counting (array or map).
  * - Divide counts into pairs and leftovers.
  */
+
+//approach : frequency array
+class Solution {
+    public int[] numberOfPairs(int[] nums) {
+        int[] freq = new int[101]; // values range 0..100
+
+        for (int num : nums) {
+            freq[num]++;
+        }
+
+        int pairs = 0, leftover = 0;
+        for (int count : freq) {
+            pairs += count / 2;
+            leftover += count % 2;
+        }
+
+        return new int[]{pairs, leftover};
+    }
+}
