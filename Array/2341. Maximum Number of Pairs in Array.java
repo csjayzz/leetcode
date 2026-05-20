@@ -1,3 +1,4 @@
+import java.util.*;
 /*
  * Problem: Maximum Number of Pairs in Array (LeetCode 2341)
  * ---------------------------------------------------------
@@ -48,6 +49,7 @@
  * - Divide counts into pairs and leftovers.
  */
 
+/* 
 //approach : frequency array
 class Solution {
     public int[] numberOfPairs(int[] nums) {
@@ -64,5 +66,26 @@ class Solution {
         }
 
         return new int[]{pairs, leftover};
+    }
+}
+
+*/
+
+//* Approach 2: HashMap
+class Solution {
+    public int[] numberOfPairs(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] answer = new int[2]; // [pairs, leftover]
+
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        for (int val : map.values()) {
+            answer[0] += val / 2;   // pairs
+            answer[1] += val % 2;   // leftover
+        }
+
+        return answer;
     }
 }
