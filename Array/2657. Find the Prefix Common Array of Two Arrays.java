@@ -52,28 +52,28 @@
  */
 
 
-class Solution {
-    public int[] findThePrefixCommonArray(int[] A, int[] B) {
-        int n = A.length;
-        int[] res = new int[n];
-        boolean[] seenA = new boolean[n + 1];
-        boolean[] seenB = new boolean[n + 1];
+// class Solution {
+//     public int[] findThePrefixCommonArray(int[] A, int[] B) {
+//         int n = A.length;
+//         int[] res = new int[n];
+//         boolean[] seenA = new boolean[n + 1];
+//         boolean[] seenB = new boolean[n + 1];
 
-        for (int i = 0; i < n; i++) {
-            seenA[A[i]] = true;
-            seenB[B[i]] = true;
+//         for (int i = 0; i < n; i++) {
+//             seenA[A[i]] = true;
+//             seenB[B[i]] = true;
 
-            int cnt = 0;
-            for (int j = 1; j <= n; j++) {
-                if (seenA[j] && seenB[j]) cnt++;
-            }
+//             int cnt = 0;
+//             for (int j = 1; j <= n; j++) {
+//                 if (seenA[j] && seenB[j]) cnt++;
+//             }
 
-            res[i] = cnt;
-        }
+//             res[i] = cnt;
+//         }
 
-        return res;
-    }
-}
+//         return res;
+//     }
+// }
 
 /*
  * Problem: Find the Prefix Common Array of Two Arrays (LeetCode 2657)
