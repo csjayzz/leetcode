@@ -1,3 +1,6 @@
+package Hashmap;
+
+import java.util.*;
 /*
  * Problem: Find the Length of the Longest Common Prefix (LeetCode 3043)
  * ---------------------------------------------------------------------
@@ -75,3 +78,37 @@
  * - Intersection gives common prefixes.
  * - Compute longest digit length among them.
  */
+
+
+class Solution {
+    public int longestCommonPrefix(int[] arr1, int[] arr2) {
+        HashSet<Integer> set1 = new HashSet<>();
+        HashSet<Integer> set2 = new HashSet<>();
+
+        // Collect all prefixes from arr1
+        for (int num : arr1) {
+            while (num > 0) {
+                set1.add(num);
+                num /= 10;
+            }
+        }
+
+        // Collect all prefixes from arr2
+        for (int num : arr2) {
+            while (num > 0) {
+                set2.add(num);
+                num /= 10;
+            }
+        }
+
+        int ans = 0;
+        for (int n : set1) {
+            if (set2.contains(n)) {
+                int length = (n == 0) ? 1 : (int) Math.log10(n) + 1;
+                ans = Math.max(ans, length);
+            }
+        }
+
+        return ans;
+    }
+}
