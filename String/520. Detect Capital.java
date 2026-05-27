@@ -58,3 +58,22 @@
  * - Simple counting or explicit rule checking both solve the problem.
  */
 
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        int capital = 0;
+        int small = 0;
+
+        for (char ch : word.toCharArray()) {
+            if (Character.isLowerCase(ch)) {
+                small++;
+            } else {
+                capital++;
+            }
+        }
+
+        if (capital == 0 || small == 0) return true; // all lowercase OR all uppercase
+        if (capital == 1 && Character.isUpperCase(word.charAt(0))) return true; // first uppercase only
+
+        return false;
+    }
+}
