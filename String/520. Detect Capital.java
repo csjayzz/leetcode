@@ -57,7 +57,7 @@
  * - Either all uppercase, all lowercase, or first uppercase only.
  * - Simple counting or explicit rule checking both solve the problem.
  */
-
+//Approach 1: Count Uppercase and Lowercase
 class Solution {
     public boolean detectCapitalUse(String word) {
         int capital = 0;
@@ -77,3 +77,43 @@ class Solution {
         return false;
     }
 }
+
+//Approach 2: Explicit Rule Checking
+class Solution {
+    public boolean detectCapitalUse(String word) {
+        int n = word.length();
+
+        // Rule A: all lowercase
+        boolean allLower = true;
+        for (char ch : word.toCharArray()) {
+            if (!Character.isLowerCase(ch)) {
+                allLower = false;
+                break;
+            }
+        }
+
+        // Rule B: all uppercase
+        boolean allUpper = true;
+        for (char ch : word.toCharArray()) {
+            if (!Character.isUpperCase(ch)) {
+                allUpper = false;
+                break;
+            }
+        }
+
+        // Rule C: first uppercase, rest lowercase
+        boolean firstUpperRestLower = false;
+        if (Character.isUpperCase(word.charAt(0))) {
+            firstUpperRestLower = true;
+            for (int i = 1; i < n; i++) {
+                if (!Character.isLowerCase(word.charAt(i))) {
+                    firstUpperRestLower = false;
+                    break;
+                }
+            }
+        }
+
+        return allLower || allUpper || firstUpperRestLower;
+    }
+}
+
