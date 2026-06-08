@@ -65,3 +65,68 @@
  * - Approach 4 → interesting two-pointer trick, but fails stability requirement.
  * Best Practical Choices: Approach 2 or Approach 3 (both O(n), stable, memory-efficient).
  */
+
+/*
+
+ * -----------------------------------------------------------------
+ * Approach 3: Two-Pass In-Place Overwrite
+ * - Instead of using extra lists or even a separate result array:
+ *   1. Create a new array res of same size (to avoid shifting in-place complexities).
+ *   2. First pass: write all elements < pivot into res.
+ *   3. Second pass: write all elements == pivot into res.
+ *   4. Third pass: write all elements > pivot into res.
+ * - This preserves order and avoids storing three separate lists.
+ *
+ * Note: This is technically not "in-place" in the strictest sense
+ *       (since we still use one result array), but it avoids multiple
+ *       auxiliary lists and works in O(n) time with O(n) space.
+ *
+ * -----------------------------------------------------------------
+ * Dry Run Example:
+ *   nums = [9,12,5,10,14,3,10], pivot = 10
+ *   Pass 1 → res = [9,5,3,...]
+ *   Pass 2 → res = [9,5,3,10,10,...]
+ *   Pass 3 → res = [9,5,3,10,10,12,14]
+ *   Output = [9,5,3,10,10,12,14]
+ *
+ * -----------------------------------------------------------------
+ * Time Complexity: O(n) → three passes.
+ * Space Complexity: O(n) → one result array.
+ *
+ * -----------------------------------------------------------------
+ * Pattern Summary:
+ * - Use multiple passes to avoid extra buckets.
+ * - Each pass fills one segment of the result array.
+ * - Preserves order and is clean to implement.
+ */
+
+class Solution {
+    public int[] pivotArray(int[] nums, int pivot) {
+        int n = nums.length;
+        int[] res = new int[n];
+        int idx = 0;
+
+        // Pass 1: smaller elements
+        for (int num : nums) {
+            if (num < pivot) {
+                res[idx++] = num;
+            }
+        }
+
+        // Pass 2: equal elements
+        for (int num : nums) {
+            if (num == pivot) {
+                res[idx++] = num;
+            }
+        }
+
+        // Pass 3: larger elements
+        for (int num : nums) {
+            if (num > pivot) {
+                res[idx++] = num;
+            }
+        }
+
+        return res;
+    }
+}
