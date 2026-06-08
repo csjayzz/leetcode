@@ -130,3 +130,63 @@ class Solution {
         return res;
     }
 }
+
+
+class Solution {
+    public int[] pivotArray(int[] nums, int pivot) {
+        int n = nums.length;
+        int smCount = 0, eqCount = 0;
+
+        // Count smaller and equal elements
+        for (int num : nums) {
+            if (num < pivot) smCount++;
+            else if (num == pivot) eqCount++;
+        }
+
+        int[] res = new int[n];
+        int smallIdx = 0;
+        int equalIdx = smCount;
+        int largeIdx = smCount + eqCount;
+
+        // Fill result array directly
+        for (int num : nums) {
+            if (num < pivot) {
+                res[smallIdx++] = num;
+            } else if (num == pivot) {
+                res[equalIdx++] = num;
+            } else {
+                res[largeIdx++] = num;
+            }
+        }
+
+        return res;
+    }
+}
+
+
+class Solution {
+    public int[] pivotArray(int[] nums, int pivot) {
+        List<Integer> smaller = new ArrayList<>();
+        List<Integer> equal = new ArrayList<>();
+        List<Integer> larger = new ArrayList<>();
+
+        for (int num : nums) {
+            if (num < pivot) {
+                smaller.add(num);
+            } else if (num > pivot) {
+                larger.add(num);
+            } else {
+                equal.add(num);
+            }
+        }
+
+        // Concatenate
+        List<Integer> ans = new ArrayList<>();
+        ans.addAll(smaller);
+        ans.addAll(equal);
+        ans.addAll(larger);
+
+        // Convert to array
+        return ans.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
