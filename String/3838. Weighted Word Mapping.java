@@ -62,3 +62,27 @@
  * - Map to reverse alphabet.
  * - Concatenate results.
  */
+
+
+class Solution {
+    public String mapWordWeights(String[] words, int[] weights) {
+        StringBuilder sb = new StringBuilder("");
+        // char[] alphabet = new char[26];
+        // int index = 0;
+
+        // for (char c = 'z'; c >= 'a'; c--) {
+        // alphabet[index++] = c;
+        // }
+        for(String s : words){
+            int sum = 0;
+            for(char ch : s.toCharArray()){
+                sum += weights[ch-'a'];
+            }
+
+           // sb.append(alphabet[sum%26]);
+            sb.append((char) ('z' - (sum%26)));
+        }
+
+        return sb.toString();
+    }
+}
