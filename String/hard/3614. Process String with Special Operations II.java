@@ -97,3 +97,62 @@
  * - Track length and index transformations.
  * - Reverse simulate to trace kth character back to original input.
  */
+
+/*//it is an Aptitude Qns asked in banking comp.
+we just cant make the final string as it will be very large. so we need to do reverse simulation
+lets say , for now there is only #, then for s = abc# , k = 4 -> result string = abcabc and ans = result[4] i.e b
+its clear we cant make the result string so we do reverse simulation, in s the b is at index 1, we get the length of the result string without making it , like for # , abc# - 3, abcabc - 6; ** k - n/2 ** 4 - 6/2 = 1 which is the position of k in s. we got it without forming the result string.
+
+for normal ch, we undo i.e L-- and check if(L==k) if it is then return s[i];
+for example, abc#, start frm last, # = length 6, k = k - n/2; undo # : L = L/2, k-n/2 we are at c normal character so , l--, then b , l-- and check if l == k oh it is then return s[i];
+
+for %, reverse, abcde% -> again start from the last, L = 5, edcba , k change to l - k - 1; length stays the same.
+
+for*, to undo do L++;
+
+*/
+
+class Solution {
+    public char processStr(String s, long k) {
+        //Length
+       long L = 0;
+       int n = s.length();
+       
+       //1: get the Length of result string 
+       for(char ch : s.toCharArray()){
+        if(ch=='*'){
+            if(L>0)
+            L--;
+        }else if(ch=='#'){
+            L *= 2;
+        }else if(ch=='%'){
+            //no change in length
+        }else{
+            //'a' to 'z'
+            L++;
+        }
+       }
+
+       if(k>=L)return '.';
+
+       for(int i = n-1;i>=0;i--){
+        if(s.charAt(i)=='*'){
+            //no change in k
+            L++;
+        }else if(s.charAt(i)=='#'){
+            L = L/2;
+            k = (k>=L) ? k - L: k;
+        }else if(s.charAt(i)=='%'){
+            //No change in L
+            k = L - k - 1;
+        }else{
+            //'a' to 'z'
+            L--;
+        }
+
+        if(L==k)return s.charAt(i);
+       }
+
+       return '.';
+    }
+}
